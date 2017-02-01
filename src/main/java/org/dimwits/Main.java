@@ -1,7 +1,6 @@
 package org.dimwits;
 
-import org.dimwits.gui.MainWindow;
-import org.springframework.boot.SpringApplication;
+import org.dimwits.controllers.Launcher;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
