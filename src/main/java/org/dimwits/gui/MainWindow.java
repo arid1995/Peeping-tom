@@ -59,6 +59,7 @@ public class MainWindow extends JFrame {
         if (currentScreen != null) {
             mainPanel.remove(currentScreen);
         }
+
         mainPanel.add(newScreen, BorderLayout.CENTER);
         currentScreen = newScreen;
         SwingUtilities.updateComponentTreeUI(this);

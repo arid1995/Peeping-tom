@@ -37,10 +37,11 @@ public class MenuScreen extends JPanel {
         searchDatabaseButton = new CButton("Поиск по базе");
         constraints.gridx = 0;
         constraints.gridy = 0; this.setLayout(new GridBagLayout());
-        constraints.gridwidth = 3;
+        constraints.gridwidth = 1;
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weightx = 1;
         constraints.weighty = 1;
+        constraints.insets = new Insets(40, 40, 0, 40);
         this.add(searchDatabaseButton, constraints);
 
         goToRegionsButton = new CButton("Перейти к списку регионов");
@@ -66,8 +67,7 @@ public class MenuScreen extends JPanel {
     }
 
     @PostConstruct
-    private void initializeListeners() {
+    private void initializeControls() {
         addNewInfoButton.addActionListener(new ChangeScreenAction(formScreen, mainWindow));
-
     }
 }
