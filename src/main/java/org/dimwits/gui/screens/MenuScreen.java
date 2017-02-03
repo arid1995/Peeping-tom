@@ -1,8 +1,12 @@
 package org.dimwits.gui.screens;
 
+import org.dimwits.controllers.menu.ChangeScreenAction;
+import org.dimwits.gui.MainWindow;
 import org.dimwits.gui.customized.CButton;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,14 +14,21 @@ import java.awt.*;
  * Created by farid on 1/31/17.
  * Screen containing menu
  */
+@SuppressWarnings("SpringAutowiredFieldsWarningInspection")
 @Service
 public class MenuScreen extends JPanel {
 
-    JButton searchDatabaseButton;
-    JButton goToRegionsButton;
-    JButton addNewInfoButton;
-    JButton editOldRecordsButton;
-    JButton linkRecordsButton;
+    @Autowired
+    private MainWindow mainWindow;
+
+    @Autowired
+    private FormScreen formScreen;
+
+    private JButton searchDatabaseButton;
+    private JButton goToRegionsButton;
+    private JButton addNewInfoButton;
+    private JButton editOldRecordsButton;
+    private JButton linkRecordsButton;
 
     public MenuScreen() {
         this.setLayout(new GridBagLayout());
@@ -25,7 +36,7 @@ public class MenuScreen extends JPanel {
 
         searchDatabaseButton = new CButton("Поиск по базе");
         constraints.gridx = 0;
-        constraints.gridy = 0;
+        constraints.gridy = 0; this.setLayout(new GridBagLayout());
         constraints.gridwidth = 3;
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weightx = 1;
@@ -52,5 +63,11 @@ public class MenuScreen extends JPanel {
         constraints.gridx = 0;
         constraints.gridy = 4;
         this.add(linkRecordsButton, constraints);
+    }
+
+    @PostConstruct
+    private void initializeListeners() {
+        addNewInfoButton.addActionListener(new ChangeScreenAction(formScreen, mainWindow));
+
     }
 }
