@@ -1,8 +1,10 @@
 package org.dimwits.gui.screens;
 
+import org.dimwits.controllers.data.SaveDataAction;
 import org.dimwits.gui.customized.CButton;
 import org.dimwits.gui.customized.CLabel;
 import org.dimwits.gui.customized.CTextField;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -14,6 +16,9 @@ import java.awt.*;
  */
 @Service
 public class FormScreen extends JPanel{
+    @Autowired
+    private MenuScreen menuScreen;
+
     private CTextField lastNameField;
     private CTextField firstNameField;
     private CTextField patronymicField;
@@ -92,10 +97,16 @@ public class FormScreen extends JPanel{
         prisonField = new CTextField();
         constraints.gridy = 8;
         this.add(prisonField, constraints);
+
+        saveButton = new CButton("Сохранить");
+        constraints.gridx = 0;
+        constraints.gridy = 9;
+        constraints.gridwidth = 2;
+        this.add(saveButton, constraints);
     }
 
     @PostConstruct
     private void initializeControls() {
-
+        saveButton.addActionListener(new SaveDataAction());
     }
 }
