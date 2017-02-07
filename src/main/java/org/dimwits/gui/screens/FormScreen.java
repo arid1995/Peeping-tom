@@ -1,9 +1,13 @@
 package org.dimwits.gui.screens;
 
 import org.dimwits.controllers.data.SaveDataAction;
+import org.dimwits.data.Persistable;
+import org.dimwits.data.dao.PrisonerDAO;
+import org.dimwits.data.models.Prisoner;
 import org.dimwits.gui.customized.CButton;
 import org.dimwits.gui.customized.CLabel;
 import org.dimwits.gui.customized.CTextField;
+import org.dimwits.gui.utils.Collectable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +19,7 @@ import java.awt.*;
  * Created by farid on 2/1/17.
  */
 @Service
-public class FormScreen extends JPanel{
+public class FormScreen extends JPanel implements Collectable {
     @Autowired
     private MenuScreen menuScreen;
 
@@ -107,6 +111,21 @@ public class FormScreen extends JPanel{
 
     @PostConstruct
     private void initializeControls() {
-        saveButton.addActionListener(new SaveDataAction());
+        saveButton.addActionListener(new SaveDataAction(this));
+    }
+
+    public Persistable collectData() {
+        Prisoner prisoner = new Prisoner();
+
+        prisoner.setName(firstNameField.getText());
+        prisoner.setSurname(lastNameField.getText());
+        prisoner.setPatronymic(patronymicField.getText());
+        prisoner.setNickname(nicknameField.getText());
+        prisoner.setBirthYear(Integer.parseInt(birthYearField.getText()));
+        prisoner.setBirthPlace(birthPlaceField.getText());
+        prisoner.setLivingPlace(livingPlaceField.getText());
+        prisoner.setPrison(prisonField.getText());
+
+        return new PrisonerDAO(prisoner);
     }
 }

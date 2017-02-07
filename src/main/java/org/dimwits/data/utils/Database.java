@@ -41,9 +41,8 @@ public class Database {
     public static int update(String query) throws SQLException {
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:convicts.db")) {
             try (Statement statement = connection.createStatement()) {
-                statement.executeUpdate(query/*, Statement.RETURN_GENERATED_KEYS*/);
+                statement.executeUpdate(query);
                 try(ResultSet result = statement.getGeneratedKeys()) {
-                    //if(result.next()) return result.getInt(1);
                     return 0;
                 }
             }
