@@ -20,8 +20,6 @@ import java.awt.*;
  */
 @Service
 public class FormScreen extends JPanel implements Collectable {
-    @Autowired
-    private MenuScreen menuScreen;
 
     private CTextField lastNameField;
     private CTextField firstNameField;

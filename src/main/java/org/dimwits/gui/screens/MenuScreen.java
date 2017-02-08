@@ -24,6 +24,9 @@ public class MenuScreen extends JPanel {
     @Autowired
     private FormScreen formScreen;
 
+    @Autowired
+    private SearchScreen searchScreen;
+
     private JButton searchDatabaseButton;
     private JButton goToRegionsButton;
     private JButton addNewInfoButton;
@@ -69,5 +72,6 @@ public class MenuScreen extends JPanel {
     @PostConstruct
     private void initializeControls() {
         addNewInfoButton.addActionListener(new ChangeScreenAction(formScreen, mainWindow));
+        searchDatabaseButton.addActionListener(new ChangeScreenAction(searchScreen, mainWindow));
     }
 }
