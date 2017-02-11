@@ -1,6 +1,6 @@
 package org.dimwits.data.models;
 
-import com.sun.istack.internal.NotNull;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by farid on 2/3/17.

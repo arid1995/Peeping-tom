@@ -1,7 +1,5 @@
 package org.dimwits.gui.screens;
 
-import com.sun.istack.internal.Nullable;
-
 import javax.swing.*;
 import java.util.Stack;
 
@@ -15,7 +13,6 @@ public abstract class Screen extends JPanel {
         history.push(this);
     }
 
-    @Nullable
     public static Screen goBack() {
         if (history.size() > 1) {
             history.pop();
