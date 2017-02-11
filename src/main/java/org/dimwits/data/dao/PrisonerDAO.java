@@ -139,4 +139,14 @@ public class PrisonerDAO implements Persistable{
             e.printStackTrace();
         }
     }
+
+    public void linkTwoPrisoners(Prisoner prisoner1, Prisoner prisoner2) {
+        try {
+            Database.update("INSERT INTO links (prisoner1, prisoner2) " +
+                    "values(" + prisoner1.getId() + ","
+                    + prisoner2.getId() + ");");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -4,12 +4,10 @@ import org.dimwits.gui.screens.MenuScreen;
 import org.dimwits.gui.screens.Screen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.swing.*;
 import java.awt.*;
-import java.util.Stack;
 
 /**
  * Created by farid on 1/31/17.
