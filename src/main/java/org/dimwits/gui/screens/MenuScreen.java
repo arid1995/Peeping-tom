@@ -1,6 +1,7 @@
 package org.dimwits.gui.screens;
 
 import org.dimwits.controllers.menu.ChangeScreenAction;
+import org.dimwits.data.models.Prisoner;
 import org.dimwits.gui.MainWindow;
 import org.dimwits.gui.customized.CButton;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import java.awt.*;
  */
 @SuppressWarnings("SpringAutowiredFieldsWarningInspection")
 @Service
-public class MenuScreen extends JPanel {
+public class MenuScreen extends Screen {
 
     @Autowired
     private MainWindow mainWindow;
@@ -67,6 +68,8 @@ public class MenuScreen extends JPanel {
         constraints.gridx = 0;
         constraints.gridy = 4;
         this.add(linkRecordsButton, constraints);
+
+        this.pushHistory();
     }
 
     @PostConstruct

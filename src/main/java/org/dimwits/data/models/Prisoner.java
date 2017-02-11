@@ -6,6 +6,7 @@ import com.sun.istack.internal.NotNull;
  * Created by farid on 2/3/17.
  */
 public class Prisoner {
+    private Integer id;
     @NotNull
     private String name;
     @NotNull
@@ -29,9 +30,10 @@ public class Prisoner {
     public Prisoner() {
     }
 
-    public Prisoner(String name, String surname, String patronymic, Integer birthYear, String birthPlace,
+    public Prisoner(Integer id, String name, String surname, String patronymic, Integer birthYear, String birthPlace,
                     String livingPlace, String prison, String nickname, String convictionInfo, String additionalInfo,
                     String filePath) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.patronymic = patronymic;
@@ -43,6 +45,10 @@ public class Prisoner {
         this.convictionInfo = convictionInfo;
         this.additionalInfo = additionalInfo;
         this.filePath = filePath;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getName() {
@@ -131,5 +137,10 @@ public class Prisoner {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    @Override
+    public String toString() {
+        return surname + " " + name + " " + patronymic;
     }
 }

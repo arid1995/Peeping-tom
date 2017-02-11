@@ -1,29 +1,38 @@
 package org.dimwits.gui.screens;
 
+import org.dimwits.controllers.data.FindDataAction;
+import org.dimwits.data.dao.PrisonerDAO;
 import org.dimwits.data.models.Prisoner;
+import org.dimwits.gui.MainWindow;
 import org.dimwits.gui.customized.CButton;
 import org.dimwits.gui.customized.CLabel;
 import org.dimwits.gui.customized.CTextField;
+import org.dimwits.gui.utils.Visualizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 /**
  * Created by farid on 2/7/17.
  */
+@SuppressWarnings({"SpringAutowiredFieldsWarningInspection", "unchecked"})
 @Service
-public class SearchScreen extends JPanel {
+public class SearchScreen extends Screen implements Visualizer {
+
+    @Autowired
+    PrisonerScreen prisonerScreen;
+
+    @Autowired
+    MainWindow mainWindow;
 
     private JTabbedPane searchOptions;
-    private JPanel searchBySurnameScreen;
-    private JPanel searchByFullNameScreen;
-    private JPanel searchByNicknameScreen;
-    private JPanel searchByLivingPlaceScreen;
-    private JPanel searchByPrisonScreen;
 
     private CTextField surnameField;
     private CTextField nicknameField;
@@ -35,13 +44,16 @@ public class SearchScreen extends JPanel {
 
     private CButton searchButton;
 
+    private JList<Prisoner> foundPrisonersList;
+    private DefaultListModel<Prisoner> listModel;
+
     public SearchScreen() {
         searchOptions = new JTabbedPane();
-        searchByFullNameScreen = new JPanel(new GridBagLayout());
-        searchByLivingPlaceScreen = new JPanel(new GridBagLayout());
-        searchByNicknameScreen = new JPanel(new GridBagLayout());
-        searchByPrisonScreen = new JPanel(new GridBagLayout());
-        searchBySurnameScreen = new JPanel(new GridBagLayout());
+        JPanel searchByFullNameScreen = new JPanel(new GridBagLayout());
+        JPanel searchByLivingPlaceScreen = new JPanel(new GridBagLayout());
+        JPanel searchByNicknameScreen = new JPanel(new GridBagLayout());
+        JPanel searchByPrisonScreen = new JPanel(new GridBagLayout());
+        JPanel searchBySurnameScreen = new JPanel(new GridBagLayout());
 
         GridBagConstraints constraints = new GridBagConstraints();
 
@@ -71,7 +83,6 @@ public class SearchScreen extends JPanel {
         constraints.gridy = 2;
         patronymicField = new CTextField();
         searchByFullNameScreen.add(patronymicField, constraints);
-
 
         //Search by living place screen filling
         constraints.gridx = 0;
@@ -132,9 +143,70 @@ public class SearchScreen extends JPanel {
         constraints.weighty = 0;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.add(searchButton, constraints);
+
+        constraints.gridy = 2;
+        constraints.weighty = 1;
+        constraints.fill = GridBagConstraints.BOTH;
+
+        listModel = new DefaultListModel<>();
+        foundPrisonersList = new JList<>(listModel);
+        JScrollPane scrollPane = new JScrollPane(foundPrisonersList);
+        this.add(scrollPane, constraints);
+
+        MouseListener mouseListener = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JList<Prisoner> list = (JList<Prisoner>) e.getSource();
+                if (e.getClickCount() == 2) {
+                    int index = list.locationToIndex(e.getPoint());
+                    if (index >= 0) {
+                        goToPrisoner(listModel.elementAt(index));
+                    }
+                }
+            }
+        };
+        foundPrisonersList.addMouseListener(mouseListener);
     }
 
-    public void displayPrisoner() {
+    @PostConstruct
+    private void initializeControls() {
+        searchButton.addActionListener(new FindDataAction(this));
+    }
 
+    public void visualize() {
+        listModel.clear();
+        PrisonerDAO prisonerDAO = new PrisonerDAO();
+
+        int currentTab = searchOptions.getSelectedIndex();
+
+        switch (currentTab) {
+            case 0:
+                prisonerDAO.findByLastName(surnameField.getText());
+                break;
+            case 1:
+                prisonerDAO.findByFullName(firstNameField.getText(), lastNameField.getText(), patronymicField.getText());
+                break;
+            case 2:
+                prisonerDAO.findByNickname(nicknameField.getText());
+                break;
+            case 3:
+                prisonerDAO.findByLivingPlace(livingPlaceField.getText());
+                break;
+            case 4:
+                prisonerDAO.findByPrison(prisonField.getText());
+                break;
+        }
+
+        ArrayList<Prisoner> prisoners = prisonerDAO.getPrisoners();
+
+        for (Prisoner prisoner : prisoners) {
+            listModel.addElement(prisoner);
+        }
+    }
+
+    private void goToPrisoner(Prisoner prisoner) {
+        prisonerScreen.setPrisoner(prisoner);
+        mainWindow.changeScreen(prisonerScreen);
+        this.pushHistory();
     }
 }

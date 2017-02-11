@@ -1,6 +1,7 @@
 package org.dimwits.controllers.menu;
 
 import org.dimwits.gui.MainWindow;
+import org.dimwits.gui.screens.Screen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,14 +15,15 @@ import java.awt.event.ActionListener;
 @SuppressWarnings("SpringAutowiredFieldsWarningInspection")
 public class ChangeScreenAction implements ActionListener {
     private MainWindow mainWindow;
-    private JPanel screen;
+    private Screen screen;
 
-    public ChangeScreenAction (JPanel screen, MainWindow mainWindow) {
+    public ChangeScreenAction (Screen screen, MainWindow mainWindow) {
         this.screen = screen;
         this.mainWindow = mainWindow;
     }
 
     public void actionPerformed(ActionEvent e) {
         mainWindow.changeScreen(screen);
+        screen.pushHistory();
     }
 }
