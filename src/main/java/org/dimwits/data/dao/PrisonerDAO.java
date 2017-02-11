@@ -75,7 +75,7 @@ public class PrisonerDAO implements Persistable{
         }
     }
 
-    private void extractAllPrisoners(ResultSet result) throws SQLException {
+    private void extractAllPrisoners(ResultSet result, ArrayList<Prisoner> prisoners) throws SQLException {
         while (result.next()) {
             prisoners.add(new Prisoner(result.getInt("id"),
                     result.getString("firstName"),
@@ -98,7 +98,7 @@ public class PrisonerDAO implements Persistable{
             Database.select("SELECT * FROM prisoners WHERE " +
                             "firstName='" + firstName + "' AND " +
                             "surname='" + lastName + "' AND " +
-                            "patronymic='" + patronymic + "';", this::extractAllPrisoners);
+                            "patronymic='" + patronymic + "';", (result) -> { extractAllPrisoners(result, prisoners); });
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -107,7 +107,7 @@ public class PrisonerDAO implements Persistable{
     public void findByNickname(String nickname) {
         try {
             Database.select("SELECT * FROM prisoners WHERE " +
-                    "nickname='" + nickname + "';", this::extractAllPrisoners);
+                    "nickname='" + nickname + "';", (result) -> { extractAllPrisoners(result, prisoners); });
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -116,7 +116,7 @@ public class PrisonerDAO implements Persistable{
     public void findByLivingPlace(String livingPlace) {
         try {
             Database.select("SELECT * FROM prisoners WHERE " +
-                    "livingPlace='" + livingPlace + "';", this::extractAllPrisoners);
+                    "livingPlace='" + livingPlace + "';", (result) -> { extractAllPrisoners(result, prisoners); });
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -125,7 +125,7 @@ public class PrisonerDAO implements Persistable{
     public void findByLastName(String lastName) {
         try {
             Database.select("SELECT * FROM prisoners WHERE " +
-                    "surname='" + lastName + "';", this::extractAllPrisoners);
+                    "surname='" + lastName + "';", (result) -> { extractAllPrisoners(result, prisoners); });
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -134,7 +134,7 @@ public class PrisonerDAO implements Persistable{
     public void findByPrison(String prison) {
         try {
             Database.select("SELECT * FROM prisoners WHERE " +
-                    "prison='" + prison + "';", this::extractAllPrisoners);
+                    "prison='" + prison + "';", (result) -> { extractAllPrisoners(result, prisoners); });
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -148,5 +148,20 @@ public class PrisonerDAO implements Persistable{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<Prisoner> getLinkedPrisoners() {
+        final ArrayList<Prisoner> linkedPrisoners = new ArrayList<>();
+
+        try {
+            Database.select("SELECT DISTINCT * FROM prisoners INNER JOIN links ON " +
+                    "links.prisoner1=prisoners.id OR " +
+                    "links.prisoner2=prisoners.id WHERE " +
+                    "prisoners.id=" + prisoner.getId(), (result) -> { extractAllPrisoners(result, linkedPrisoners); });
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return linkedPrisoners;
     }
 }

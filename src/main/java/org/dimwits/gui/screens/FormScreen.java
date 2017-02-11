@@ -4,9 +4,7 @@ import org.dimwits.controllers.data.SaveDataAction;
 import org.dimwits.data.Persistable;
 import org.dimwits.data.dao.PrisonerDAO;
 import org.dimwits.data.models.Prisoner;
-import org.dimwits.gui.customized.CButton;
-import org.dimwits.gui.customized.CLabel;
-import org.dimwits.gui.customized.CTextField;
+import org.dimwits.gui.customized.*;
 import org.dimwits.gui.utils.Collectable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +12,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by farid on 2/1/17.
@@ -29,9 +29,12 @@ public class FormScreen extends Screen implements Collectable {
     private CTextField birthPlaceField;
     private CTextField livingPlaceField;
     private CTextField prisonField;
-    //TODO: Add conviction history, additional info and path to file
+    private CTextArea convictionHistoryField;
+    private CTextArea additionalInfoField;
 
     private CButton saveButton;
+    private CButton chooseFileButton;
+    private CFileChooser fileChooser;
 
     public FormScreen() {
         this.setLayout(new GridBagLayout());
@@ -43,6 +46,7 @@ public class FormScreen extends Screen implements Collectable {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 0.5;
         constraints.weighty = 1;
+        constraints.ipadx = 50;
 
         this.add(new CLabel("Анкета"), constraints);
 
@@ -63,6 +67,12 @@ public class FormScreen extends Screen implements Collectable {
         this.add(new CLabel("Место жительства"), constraints);
         constraints.gridy = 8;
         this.add(new CLabel("Место содержания"), constraints);
+        constraints.gridy = 9;
+        this.add(new CLabel("История судимости"), constraints);
+        constraints.gridy = 10;
+        this.add(new CLabel("Дополнительная информация"), constraints);
+        constraints.gridy = 11;
+        this.add(new CLabel("Путь к файлу"), constraints);
 
         constraints.gridx = 1;
         constraints.weightx = 1;
@@ -100,9 +110,28 @@ public class FormScreen extends Screen implements Collectable {
         constraints.gridy = 8;
         this.add(prisonField, constraints);
 
+        convictionHistoryField = new CTextArea();
+        convictionHistoryField.setLineWrap(true);
+        constraints.gridy = 9;
+        this.add(convictionHistoryField, constraints);
+
+        additionalInfoField = new CTextArea();
+        additionalInfoField.setLineWrap(true);
+        constraints.gridy = 10;
+        this.add(additionalInfoField, constraints);
+
+        chooseFileButton = new CButton("Выбрать");
+        constraints.gridy = 11;
+        this.add(chooseFileButton, constraints);
+
+        chooseFileButton.addActionListener((actionEvent) -> {
+            fileChooser = new CFileChooser();
+            fileChooser.showSaveDialog(this);
+        });
+
         saveButton = new CButton("Сохранить");
         constraints.gridx = 0;
-        constraints.gridy = 9;
+        constraints.gridy = 12;
         constraints.gridwidth = 2;
         this.add(saveButton, constraints);
     }
@@ -123,6 +152,9 @@ public class FormScreen extends Screen implements Collectable {
         prisoner.setBirthPlace(birthPlaceField.getText());
         prisoner.setLivingPlace(livingPlaceField.getText());
         prisoner.setPrison(prisonField.getText());
+        prisoner.setConvictionInfo(convictionHistoryField.getText());
+        prisoner.setAdditionalInfo(additionalInfoField.getText());
+        prisoner.setFilePath(fileChooser.getPath());
 
         return new PrisonerDAO(prisoner);
     }

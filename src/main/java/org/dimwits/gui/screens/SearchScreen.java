@@ -54,6 +54,7 @@ public class SearchScreen extends Screen implements Visualizer {
     }
 
     public SearchScreen(boolean isActiveList) {
+        this();
         this.isActiveList = isActiveList;
     }
 

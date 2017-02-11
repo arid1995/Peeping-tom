@@ -15,8 +15,8 @@ import java.awt.event.ActionEvent;
  */
 @Service
 public class LinkInitiator {
-    private SearchScreen searchScreen1 = new SearchScreen(false);
-    private SearchScreen searchScreen2 = new SearchScreen(false);
+    private SearchScreen searchScreen1;
+    private SearchScreen searchScreen2;
 
     private JFrame frame1;
     private JFrame frame2;
@@ -28,8 +28,8 @@ public class LinkInitiator {
         frame1 = createFrame(600, 600, 0, 0, "Первый");
         frame2 = createFrame(600, 600, 600, 0, "Второй");
 
-        searchScreen1 = new SearchScreen();
-        searchScreen2 = new SearchScreen();
+        searchScreen1 = new SearchScreen(false);
+        searchScreen2 = new SearchScreen(false);
 
         JPanel panel1 = new JPanel(new GridBagLayout());
         JPanel panel2 = new JPanel(new GridBagLayout());
@@ -59,7 +59,7 @@ public class LinkInitiator {
         Prisoner prisoner1 = searchScreen1.getSelectedPrisoner();
         Prisoner prisoner2 = searchScreen2.getSelectedPrisoner();
 
-        if (prisoner1 != null && prisoner2 != null) {
+        if (prisoner1 != null && prisoner2 != null && !prisoner1.getId().equals(prisoner2.getId())) {
             PrisonerDAO prisonerDAO = new PrisonerDAO();
             prisonerDAO.linkTwoPrisoners(prisoner1, prisoner2);
         }

@@ -7,6 +7,7 @@ import org.dimwits.data.dao.PrisonerDAO;
 import org.dimwits.data.models.Prisoner;
 import org.dimwits.gui.customized.CButton;
 import org.dimwits.gui.customized.CLabel;
+import org.dimwits.gui.customized.CTextArea;
 import org.dimwits.gui.customized.CTextField;
 import org.dimwits.gui.utils.Collectable;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ public class PrisonerScreen extends Screen implements Collectable {
     private CTextField birthPlaceField;
     private CTextField livingPlaceField;
     private CTextField prisonField;
+    private CTextArea convictionHistoryField;
+    private CTextArea additionalInfoField;
+    private CTextArea filePathField;
     //TODO: Add conviction history, additional info and path to file
 
     private CButton updateButton;
@@ -43,6 +47,7 @@ public class PrisonerScreen extends Screen implements Collectable {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 0.5;
         constraints.weighty = 1;
+        constraints.ipadx = 50;
 
         this.add(new CLabel("Человек"), constraints);
 
@@ -63,6 +68,12 @@ public class PrisonerScreen extends Screen implements Collectable {
         this.add(new CLabel("Место жительства"), constraints);
         constraints.gridy = 8;
         this.add(new CLabel("Место содержания"), constraints);
+        constraints.gridy = 9;
+        this.add(new CLabel("История судимости"), constraints);
+        constraints.gridy = 10;
+        this.add(new CLabel("Дополнительная информация"), constraints);
+        constraints.gridy = 11;
+        this.add(new CLabel("Путь к файлу"), constraints);
 
         constraints.gridx = 1;
         constraints.weightx = 1;
@@ -100,9 +111,24 @@ public class PrisonerScreen extends Screen implements Collectable {
         constraints.gridy = 8;
         this.add(prisonField, constraints);
 
+        convictionHistoryField = new CTextArea();
+        convictionHistoryField.setLineWrap(true);
+        constraints.gridy = 9;
+        this.add(convictionHistoryField, constraints);
+
+        additionalInfoField = new CTextArea();
+        additionalInfoField.setLineWrap(true);
+        constraints.gridy = 10;
+        this.add(additionalInfoField, constraints);
+
+        filePathField = new CTextArea();
+        filePathField.setLineWrap(true);
+        constraints.gridy = 11;
+        this.add(filePathField, constraints);
+
         updateButton = new CButton("Обновить");
         constraints.gridx = 0;
-        constraints.gridy = 9;
+        constraints.gridy = 12;
         constraints.gridwidth = 2;
         this.add(updateButton, constraints);
     }
@@ -122,6 +148,9 @@ public class PrisonerScreen extends Screen implements Collectable {
         prisoner.setBirthPlace(birthPlaceField.getText());
         prisoner.setLivingPlace(livingPlaceField.getText());
         prisoner.setPrison(prisonField.getText());
+        prisoner.setConvictionInfo(convictionHistoryField.getText());
+        prisoner.setAdditionalInfo(additionalInfoField.getText());
+        prisoner.setFilePath(filePathField.getText());
 
         return new PrisonerDAO(prisoner);
     }
@@ -135,6 +164,9 @@ public class PrisonerScreen extends Screen implements Collectable {
         birthPlaceField.setText(prisoner.getBirthPlace());
         livingPlaceField.setText(prisoner.getLivingPlace());
         prisonField.setText(prisoner.getPrison());
+        convictionHistoryField.setText(prisoner.getConvictionInfo());
+        additionalInfoField.setText(prisoner.getAdditionalInfo());
+        filePathField.setText(prisoner.getFilePath());
 
         this.prisoner = prisoner;
     }
