@@ -1,6 +1,7 @@
 package org.dimwits.gui;
 
 import org.dimwits.gui.screens.MenuScreen;
+import org.dimwits.gui.screens.Screen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 import org.springframework.stereotype.Component;
@@ -26,8 +27,7 @@ public class MainWindow extends JFrame {
     @Autowired
     private MenuBar menuBar;
 
-    private Stack<JPanel> history = new Stack<>();
-    private JPanel currentScreen;
+    private Screen currentScreen;
 
     public MainWindow() {
         super("Peeping tom");
@@ -53,7 +53,7 @@ public class MainWindow extends JFrame {
         this.setContentPane(mainPanel);
     }
 
-    public void changeScreen(JPanel newScreen) {
+    public void changeScreen(Screen newScreen) {
         if (newScreen == null) return;
 
         if (currentScreen != null) {
@@ -63,13 +63,5 @@ public class MainWindow extends JFrame {
         mainPanel.add(newScreen, BorderLayout.CENTER);
         currentScreen = newScreen;
         SwingUtilities.updateComponentTreeUI(this);
-        history.push(newScreen);
-    }
-
-    public void goBack() {
-        if (!history.empty() && history.size() > 1) {
-            history.pop();
-            changeScreen(history.peek());
-        }
     }
 }

@@ -19,7 +19,7 @@ import java.awt.*;
  * Created by farid on 2/1/17.
  */
 @Service
-public class FormScreen extends JPanel implements Collectable {
+public class FormScreen extends Screen implements Collectable {
 
     private CTextField lastNameField;
     private CTextField firstNameField;

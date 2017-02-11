@@ -36,7 +36,7 @@ public class PrisonerDAO implements Persistable{
 
     public void persist() {
         try {
-            Database.update("INSERT INTO PRISONERS (surname, firstName, patronymic, nickname, birthYear," +
+            Database.update("INSERT INTO prisoners (surname, firstName, patronymic, nickname, birthYear," +
                     " birthPlace, livingPlace, prison, convictionInfo, additionalInfo, fileLink) " +
                     "values('" + prisoner.getSurname() + "','"
                     + prisoner.getName() + "','"
@@ -55,7 +55,24 @@ public class PrisonerDAO implements Persistable{
     }
 
     public void update() {
-
+        try {
+            Database.update("UPDATE prisoners SET "
+                    + "surname='" + prisoner.getSurname() + "',"
+                    + "firstName='" + prisoner.getName() + "',"
+                    + "patronymic='"+ prisoner.getPatronymic() + "',"
+                    + "nickname='" + prisoner.getNickname() + "',"
+                    + "birthYear=" + prisoner.getBirthYear() + ","
+                    + "birthPlace='" + prisoner.getBirthPlace() + "',"
+                    + "livingPlace='" + prisoner.getLivingPlace() + "',"
+                    + "prison='" + prisoner.getPrison() + "',"
+                    + "convictionInfo='" + prisoner.getConvictionInfo() + "',"
+                    + "additionalInfo='" + prisoner.getAdditionalInfo() + "',"
+                    + "fileLink='" + prisoner.getFilePath() + "' WHERE "
+                    + "id=" + prisoner.getId() + ";"
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void extractAllPrisoners(ResultSet result) throws SQLException {

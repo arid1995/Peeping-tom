@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
  * Created by farid on 2/9/17.
  */
 public class FindDataAction implements ActionListener {
-    Visualizer visualizer;
+    private Visualizer visualizer;
 
     public FindDataAction(Visualizer visualizer) {
         this.visualizer = visualizer;

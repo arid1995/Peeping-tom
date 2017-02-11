@@ -1,6 +1,7 @@
 package org.dimwits.controllers.menu;
 
 import org.dimwits.gui.MainWindow;
+import org.dimwits.gui.screens.Screen;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +18,6 @@ public class GoBackAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        mainWindow.goBack();
+        mainWindow.changeScreen(Screen.goBack());
     }
 }
