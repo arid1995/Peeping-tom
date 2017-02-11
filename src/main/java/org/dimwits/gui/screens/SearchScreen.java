@@ -46,6 +46,16 @@ public class SearchScreen extends Screen implements Visualizer {
 
     private JList<Prisoner> foundPrisonersList;
     private DefaultListModel<Prisoner> listModel;
+    private boolean isActiveList = true;
+
+    public SearchScreen(MainWindow mainWindow) {
+        this();
+        this.mainWindow = mainWindow;
+    }
+
+    public SearchScreen(boolean isActiveList) {
+        this.isActiveList = isActiveList;
+    }
 
     public SearchScreen() {
         searchOptions = new JTabbedPane();
@@ -165,12 +175,9 @@ public class SearchScreen extends Screen implements Visualizer {
                 }
             }
         };
-        foundPrisonersList.addMouseListener(mouseListener);
-    }
 
-    @PostConstruct
-    private void initializeControls() {
         searchButton.addActionListener(new FindDataAction(this));
+        foundPrisonersList.addMouseListener(mouseListener);
     }
 
     public void visualize() {
@@ -205,8 +212,18 @@ public class SearchScreen extends Screen implements Visualizer {
     }
 
     private void goToPrisoner(Prisoner prisoner) {
+        if (!isActiveList) return;
         prisonerScreen.setPrisoner(prisoner);
         mainWindow.changeScreen(prisonerScreen);
         this.pushHistory();
+    }
+
+    public void setActiveList(boolean isActiveList) {
+        this.isActiveList = isActiveList;
+    }
+
+    public Prisoner getSelectedPrisoner() {
+        if (foundPrisonersList.getSelectedIndex() < 0) return null;
+        return listModel.elementAt(foundPrisonersList.getSelectedIndex());
     }
 }

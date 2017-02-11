@@ -1,7 +1,6 @@
 package org.dimwits.gui.screens;
 
 import org.dimwits.controllers.menu.ChangeScreenAction;
-import org.dimwits.data.models.Prisoner;
 import org.dimwits.gui.MainWindow;
 import org.dimwits.gui.customized.CButton;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +26,9 @@ public class MenuScreen extends Screen {
 
     @Autowired
     private SearchScreen searchScreen;
+
+    @Autowired
+    private LinkInitiator linkInitiator;
 
     private JButton searchDatabaseButton;
     private JButton goToRegionsButton;
@@ -76,5 +78,6 @@ public class MenuScreen extends Screen {
     private void initializeControls() {
         addNewInfoButton.addActionListener(new ChangeScreenAction(formScreen, mainWindow));
         searchDatabaseButton.addActionListener(new ChangeScreenAction(searchScreen, mainWindow));
+        linkRecordsButton.addActionListener((actionEvent) -> {linkInitiator.createSearchWindows();});
     }
 }
