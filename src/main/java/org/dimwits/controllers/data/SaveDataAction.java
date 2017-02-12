@@ -17,6 +17,6 @@ public class SaveDataAction implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        form.collectData().persist();
+            form.collectData().persist();
     }
 }

@@ -7,6 +7,7 @@ import javax.swing.*;
  */
 public class CFileChooser extends JFileChooser {
     public String getPath() {
+        if (this.getCurrentDirectory() == null || this.getSelectedFile() == null) return "";
         return this.getCurrentDirectory().getPath() + this.getSelectedFile().getName();
     }
 }

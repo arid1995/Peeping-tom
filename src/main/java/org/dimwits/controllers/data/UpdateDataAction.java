@@ -16,6 +16,6 @@ public class UpdateDataAction implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        form.collectData().update();
+            form.collectData().update();
     }
 }

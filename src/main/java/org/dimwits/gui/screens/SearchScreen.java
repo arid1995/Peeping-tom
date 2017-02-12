@@ -84,15 +84,15 @@ public class SearchScreen extends Screen implements Visualizer {
         constraints.weightx = 1;
         constraints.gridx = 1;
         constraints.gridy = 0;
-        lastNameField = new CTextField();
+        lastNameField = new CTextField(true);
         searchByFullNameScreen.add(lastNameField, constraints);
 
         constraints.gridy = 1;
-        firstNameField = new CTextField();
+        firstNameField = new CTextField(true);
         searchByFullNameScreen.add(firstNameField, constraints);
 
         constraints.gridy = 2;
-        patronymicField = new CTextField();
+        patronymicField = new CTextField(true);
         searchByFullNameScreen.add(patronymicField, constraints);
 
         //Search by living place screen filling
@@ -103,7 +103,7 @@ public class SearchScreen extends Screen implements Visualizer {
 
         constraints.weightx = 1;
         constraints.gridx = 1;
-        livingPlaceField = new CTextField();
+        livingPlaceField = new CTextField(true);
         searchByLivingPlaceScreen.add(livingPlaceField, constraints);
 
         //Search by nickname screen filling
@@ -113,7 +113,7 @@ public class SearchScreen extends Screen implements Visualizer {
 
         constraints.weightx = 1;
         constraints.gridx = 1;
-        nicknameField = new CTextField();
+        nicknameField = new CTextField(true);
         searchByNicknameScreen.add(nicknameField, constraints);
 
         //Search by prison screen filling
@@ -123,7 +123,7 @@ public class SearchScreen extends Screen implements Visualizer {
 
         constraints.weightx = 1;
         constraints.gridx = 1;
-        prisonField = new CTextField();
+        prisonField = new CTextField(true);
         searchByPrisonScreen.add(prisonField, constraints);
 
         //Search by surname screen filling
@@ -133,7 +133,7 @@ public class SearchScreen extends Screen implements Visualizer {
 
         constraints.weightx = 1;
         constraints.gridx = 1;
-        surnameField = new CTextField();
+        surnameField = new CTextField(true);
         searchBySurnameScreen.add(surnameField, constraints);
 
         //Setting interchangable screens

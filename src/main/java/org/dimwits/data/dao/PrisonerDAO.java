@@ -34,8 +34,22 @@ public class PrisonerDAO implements Persistable{
         this.prisoner = prisoner;
     }
 
+    public boolean checkRequired() {
+        if (prisoner.getSurname() == null ||
+                prisoner.getName() == null ||
+                prisoner.getPatronymic() == null ||
+                prisoner.getBirthPlace() == null ||
+                prisoner.getBirthYear() == null ||
+                prisoner.getId() == null ||
+                prisoner.getLivingPlace() == null ||
+                prisoner.getPrison() == null) return false;
+        return true;
+    }
+
     public void persist() {
         try {
+            if (!checkRequired()) return;
+
             Database.update("INSERT INTO prisoners (surname, firstName, patronymic, nickname, birthYear," +
                     " birthPlace, livingPlace, prison, convictionInfo, additionalInfo, fileLink) " +
                     "values('" + prisoner.getSurname() + "','"
@@ -56,6 +70,8 @@ public class PrisonerDAO implements Persistable{
 
     public void update() {
         try {
+            if (!checkRequired()) return;
+
             Database.update("UPDATE prisoners SET "
                     + "surname='" + prisoner.getSurname() + "',"
                     + "firstName='" + prisoner.getName() + "',"

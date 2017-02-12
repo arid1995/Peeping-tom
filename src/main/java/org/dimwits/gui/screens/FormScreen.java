@@ -25,7 +25,7 @@ public class FormScreen extends Screen implements Collectable {
     private CTextField firstNameField;
     private CTextField patronymicField;
     private CTextField nicknameField;
-    private CTextField birthYearField;
+    private NumberField birthYearField;
     private CTextField birthPlaceField;
     private CTextField livingPlaceField;
     private CTextField prisonField;
@@ -78,15 +78,15 @@ public class FormScreen extends Screen implements Collectable {
         constraints.weightx = 1;
         constraints.fill = GridBagConstraints.HORIZONTAL;
 
-        lastNameField = new CTextField();
+        lastNameField = new CTextField(true);
         constraints.gridy = 1;
         this.add(lastNameField, constraints);
 
-        firstNameField = new CTextField();
+        firstNameField = new CTextField(true);
         constraints.gridy = 2;
         this.add(firstNameField, constraints);
 
-        patronymicField = new CTextField();
+        patronymicField = new CTextField(true);
         constraints.gridy = 3;
         this.add(patronymicField, constraints);
 
@@ -94,19 +94,19 @@ public class FormScreen extends Screen implements Collectable {
         constraints.gridy = 4;
         this.add(nicknameField, constraints);
 
-        birthYearField = new CTextField();
+        birthYearField = new NumberField(true);
         constraints.gridy = 5;
         this.add(birthYearField, constraints);
 
-        birthPlaceField = new CTextField();
+        birthPlaceField = new CTextField(true);
         constraints.gridy = 6;
         this.add(birthPlaceField, constraints);
 
-        livingPlaceField = new CTextField();
+        livingPlaceField = new CTextField(true);
         constraints.gridy = 7;
         this.add(livingPlaceField, constraints);
 
-        prisonField = new CTextField();
+        prisonField = new CTextField(true);
         constraints.gridy = 8;
         this.add(prisonField, constraints);
 
@@ -123,9 +123,9 @@ public class FormScreen extends Screen implements Collectable {
         chooseFileButton = new CButton("Выбрать");
         constraints.gridy = 11;
         this.add(chooseFileButton, constraints);
+        fileChooser = new CFileChooser();
 
         chooseFileButton.addActionListener((actionEvent) -> {
-            fileChooser = new CFileChooser();
             fileChooser.showSaveDialog(this);
         });
 
@@ -148,7 +148,7 @@ public class FormScreen extends Screen implements Collectable {
         prisoner.setSurname(lastNameField.getText());
         prisoner.setPatronymic(patronymicField.getText());
         prisoner.setNickname(nicknameField.getText());
-        prisoner.setBirthYear(Integer.parseInt(birthYearField.getText()));
+        prisoner.setBirthYear(birthYearField.getNumber());
         prisoner.setBirthPlace(birthPlaceField.getText());
         prisoner.setLivingPlace(livingPlaceField.getText());
         prisoner.setPrison(prisonField.getText());
