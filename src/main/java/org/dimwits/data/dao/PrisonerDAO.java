@@ -34,16 +34,14 @@ public class PrisonerDAO implements Persistable{
         this.prisoner = prisoner;
     }
 
-    public boolean checkRequired() {
-        if (prisoner.getSurname() == null ||
+    private boolean checkRequired() {
+        return !(prisoner.getSurname() == null ||
                 prisoner.getName() == null ||
                 prisoner.getPatronymic() == null ||
                 prisoner.getBirthPlace() == null ||
                 prisoner.getBirthYear() == null ||
-                prisoner.getId() == null ||
                 prisoner.getLivingPlace() == null ||
-                prisoner.getPrison() == null) return false;
-        return true;
+                prisoner.getPrison() == null);
     }
 
     public void persist() {
