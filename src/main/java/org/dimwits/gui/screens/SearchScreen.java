@@ -11,7 +11,6 @@ import org.dimwits.gui.utils.Visualizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -27,10 +26,12 @@ import java.util.ArrayList;
 public class SearchScreen extends Screen implements Visualizer {
 
     @Autowired
-    PrisonerScreen prisonerScreen;
+    private PrisonerScreen prisonerScreen;
 
     @Autowired
-    MainWindow mainWindow;
+    private MainWindow mainWindow;
+
+    @Autowired PrisonerWebScreen prisonerWebScreen;
 
     private JTabbedPane searchOptions;
 
@@ -42,16 +43,9 @@ public class SearchScreen extends Screen implements Visualizer {
     private CTextField lastNameField;
     private CTextField patronymicField;
 
-    private CButton searchButton;
-
     private JList<Prisoner> foundPrisonersList;
     private DefaultListModel<Prisoner> listModel;
     private boolean isActiveList = true;
-
-    public SearchScreen(MainWindow mainWindow) {
-        this();
-        this.mainWindow = mainWindow;
-    }
 
     public SearchScreen(boolean isActiveList) {
         this();
@@ -149,7 +143,7 @@ public class SearchScreen extends Screen implements Visualizer {
         constraints.fill = GridBagConstraints.BOTH;
         this.add(searchOptions, constraints);
 
-        searchButton = new CButton("Найти");
+        CButton searchButton = new CButton("Найти");
         constraints.gridy = 1;
         constraints.weighty = 0;
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -214,8 +208,8 @@ public class SearchScreen extends Screen implements Visualizer {
 
     private void goToPrisoner(Prisoner prisoner) {
         if (!isActiveList) return;
-        prisonerScreen.setPrisoner(prisoner);
-        mainWindow.changeScreen(prisonerScreen);
+        prisonerWebScreen.setMainPrisoner(prisoner);
+        mainWindow.changeScreen(prisonerWebScreen);
         this.pushHistory();
     }
 
