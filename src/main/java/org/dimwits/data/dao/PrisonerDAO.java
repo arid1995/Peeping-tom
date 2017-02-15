@@ -168,10 +168,10 @@ public class PrisonerDAO implements Persistable{
         final ArrayList<Prisoner> linkedPrisoners = new ArrayList<>();
 
         try {
-            Database.select("SELECT DISTINCT * FROM prisoners INNER JOIN links ON " +
-                    "links.prisoner1=prisoners.id OR " +
-                    "links.prisoner2=prisoners.id WHERE " +
-                    "prisoners.id=" + prisoner.getId(), (result) -> { extractAllPrisoners(result, linkedPrisoners); });
+            Database.select("SELECT DISTINCT * FROM prisoners WHERE " +
+                            "id IN (SELECT prisoner1 FROM links WHERE prisoner2=" + prisoner.getId() + ") OR " +
+                            "id IN (SELECT prisoner2 FROM links WHERE prisoner1=" + prisoner.getId() + ");",
+                    (result) -> { extractAllPrisoners(result, linkedPrisoners); });
         } catch (SQLException e) {
             e.printStackTrace();
         }

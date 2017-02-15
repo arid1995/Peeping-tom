@@ -12,7 +12,7 @@ import java.awt.*;
 public class CGraphics {
     private Graphics graphics;
     private Dimension size;
-    private double FONT_SIZE = 0.02;
+    private double FONT_SIZE = 0.01;
 
     public CGraphics() {
     }
@@ -43,7 +43,11 @@ public class CGraphics {
     }
 
     public void drawRect(double x, double y, double width, double height) {
-        graphics.drawRect(scaleX(x), scaleY(y), scaleX(width), scaleY(height));
+        graphics.fillRect(scaleX(x), scaleY(y), scaleX(width), scaleY(height));
+    }
+
+    public void drawLine(double x1, double y1, double x2, double y2) {
+        graphics.drawLine(scaleX(x1), scaleY(y1), scaleX(x2), scaleY(y2));
     }
 
     public double getTextLength(String text) {

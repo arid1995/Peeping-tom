@@ -61,4 +61,36 @@ public class BoundingRect {
     public boolean isIntersected(double px, double py) {
         return ((px > x && px < x + width) && (py > y && py < y + height));
     }
+
+    public double getRightMiddleX() {
+        return x;
+    }
+
+    public double getLeftMiddleX() {
+        return anchorX;
+    }
+
+    public double getTopMiddleX() {
+        return x;
+    }
+
+    public double getBottomMiddleX() {
+        return x;
+    }
+
+    public double getRightMiddleY() {
+        return y;
+    }
+
+    public double getLeftMiddleY() {
+        return y;
+    }
+
+    public double getTopMiddleY() {
+        return anchorY;
+    }
+
+    public double getBottomMiddleY() {
+        return y;
+    }
 }
