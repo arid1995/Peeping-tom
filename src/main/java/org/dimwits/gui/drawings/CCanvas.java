@@ -31,6 +31,22 @@ public class CCanvas {
         this.mainShape = mainShape;
     }
 
+    private Drawable checkIntersections(double x, double y) {
+        if (mainShape.getBoundingRect().isIntersected(x, y)) return mainShape;
+        return null;
+    }
+
+    public void mouseMoved(int x, int y) {
+        Dimension size = graphics.getSize();
+        double realX = (double) x / size.width;
+        double realY = (double) y / size.height;
+        Drawable shape = checkIntersections(realX, realY);
+
+        if (shape != null) {
+            shape.setColor(Color.RED);
+        }
+    }
+
     public void redraw() {
         mainShape.draw(graphics);
     }

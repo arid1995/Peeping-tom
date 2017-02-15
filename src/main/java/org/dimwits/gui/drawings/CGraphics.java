@@ -30,6 +30,10 @@ public class CGraphics {
         this.size = size;
     }
 
+    public Dimension getSize() {
+        return size;
+    }
+
     public void drawString(String text, double x, double y) {
         graphics.drawString(text, scaleX(x), scaleY(y));
     }
@@ -46,6 +50,10 @@ public class CGraphics {
         return (double) graphics.getFontMetrics().stringWidth(text) / size.width;
     }
 
+    public void setColor(Color color) {
+        graphics.setColor(color);
+    }
+
     public double getTextHeight(String text) {
         return (double) graphics.getFontMetrics().getHeight() / size.height;
     }
@@ -57,5 +65,4 @@ public class CGraphics {
     private int scaleY(double value) {
         return (int) (value * size.height);
     }
-
 }

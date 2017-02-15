@@ -7,4 +7,6 @@ import java.awt.*;
  */
 public interface Drawable {
     void draw(CGraphics graphics);
+    BoundingRect getBoundingRect();
+    void setColor(Color color);
 }
