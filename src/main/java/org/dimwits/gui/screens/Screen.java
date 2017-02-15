@@ -15,9 +15,15 @@ public abstract class Screen extends JPanel {
 
     public static Screen goBack() {
         if (history.size() > 1) {
+            Screen current = history.peek();
             history.pop();
+            return current;
+        }
+
+        if (history.size() == 1) {
             return history.peek();
         }
+
         return null;
     }
 }

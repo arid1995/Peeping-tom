@@ -63,34 +63,34 @@ public class BoundingRect {
     }
 
     public double getRightMiddleX() {
-        return x;
+        return x + width;
     }
 
     public double getLeftMiddleX() {
-        return anchorX;
+        return x;
     }
 
     public double getTopMiddleX() {
-        return x;
+        return anchorX;
     }
 
     public double getBottomMiddleX() {
-        return x;
+        return anchorX;
     }
 
     public double getRightMiddleY() {
-        return y;
-    }
-
-    public double getLeftMiddleY() {
-        return y;
-    }
-
-    public double getTopMiddleY() {
         return anchorY;
     }
 
-    public double getBottomMiddleY() {
+    public double getLeftMiddleY() {
+        return anchorY;
+    }
+
+    public double getTopMiddleY() {
         return y;
+    }
+
+    public double getBottomMiddleY() {
+        return y + height;
     }
 }

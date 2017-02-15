@@ -24,6 +24,5 @@ public class ChangeScreenAction implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         mainWindow.changeScreen(screen);
-        screen.pushHistory();
     }
 }

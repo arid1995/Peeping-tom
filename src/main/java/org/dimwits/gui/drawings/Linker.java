@@ -32,7 +32,7 @@ public class Linker implements Drawable {
 
         double angle = Math.acos((x1 * x2 + y1*y2) / (Math.sqrt(x1 * x1 + y1 * y1) * Math.sqrt(x2 * x2 + y2 * y2)));
 
-        if (y1 > 0.5) {
+        if (boundingRect2.getY() < 0.5) {
             if (angle < Math.PI / 4) {
                 graphics.drawLine(boundingRect1.getRightMiddleX(), boundingRect1.getRightMiddleY(),
                         boundingRect2.getLeftMiddleX(), boundingRect2.getLeftMiddleY());
@@ -43,17 +43,15 @@ public class Linker implements Drawable {
                 graphics.drawLine(boundingRect1.getLeftMiddleX(), boundingRect1.getLeftMiddleY(),
                         boundingRect2.getRightMiddleX(), boundingRect2.getRightMiddleY());
             }
-        } else if (angle > 0) {
-            if (angle < Math.PI / 4) {
-                graphics.drawLine(boundingRect1.getRightMiddleX(), boundingRect1.getRightMiddleY(),
-                        boundingRect2.getLeftMiddleX(), boundingRect2.getLeftMiddleY());
-            } else if (angle < 3 * Math.PI / 4) {
-                graphics.drawLine(boundingRect1.getBottomMiddleX(), boundingRect1.getBottomMiddleY(),
-                        boundingRect2.getTopMiddleX(), boundingRect2.getTopMiddleY());
-            } else {
-                graphics.drawLine(boundingRect1.getLeftMiddleX(), boundingRect1.getLeftMiddleY(),
-                        boundingRect2.getRightMiddleX(), boundingRect2.getRightMiddleY());
-            }
+        } else if (angle < Math.PI / 4) {
+            graphics.drawLine(boundingRect1.getRightMiddleX(), boundingRect1.getRightMiddleY(),
+                    boundingRect2.getLeftMiddleX(), boundingRect2.getLeftMiddleY());
+        } else if (angle < 3 * Math.PI / 4) {
+            graphics.drawLine(boundingRect1.getBottomMiddleX(), boundingRect1.getBottomMiddleY(),
+                    boundingRect2.getTopMiddleX(), boundingRect2.getTopMiddleY());
+        } else {
+            graphics.drawLine(boundingRect1.getLeftMiddleX(), boundingRect1.getLeftMiddleY(),
+                    boundingRect2.getRightMiddleX(), boundingRect2.getRightMiddleY());
         }
     }
 

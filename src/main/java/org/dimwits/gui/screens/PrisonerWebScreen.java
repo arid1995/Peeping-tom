@@ -2,25 +2,63 @@ package org.dimwits.gui.screens;
 
 import org.dimwits.data.dao.PrisonerDAO;
 import org.dimwits.data.models.Prisoner;
+import org.dimwits.gui.MainWindow;
 import org.dimwits.gui.drawings.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 /**
  * Created by farid on 2/12/17.
  */
 @Service
-public class PrisonerWebScreen extends Screen implements MouseMotionListener, MouseListener {
+public class PrisonerWebScreen extends Screen {
     CCanvas canvas;
     private Prisoner mainPrisoner;
 
+    @Autowired
+    PrisonerScreen prisonerScreen;
+
+    @Autowired
+    MainWindow mainWindow;
+
     public PrisonerWebScreen() {
         canvas = new CCanvas(new Dimension(this.getWidth(), this.getHeight()));
+
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    Prisoner prisoner = canvas.getSelectedPrisoner(e.getX(), e.getY());
+                    if (prisoner != null) {
+                        setMainPrisoner(prisoner);
+                        canvas.redraw();
+                        repaint();
+                    }
+                } else {
+                    Prisoner prisoner = canvas.getSelectedPrisoner(e.getX(), e.getY());
+                    if (prisoner != null) {
+                        PrisonerWebScreen.this.pushHistory();
+                        prisonerScreen.setPrisoner(prisoner);
+                        mainWindow.changeScreen(prisonerScreen);
+                    }
+                }
+            }
+        });
+
+        this.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                canvas.mouseMoved(e.getX(), e.getY());
+                repaint();
+            }
+        });
     }
 
     @Override
@@ -30,8 +68,6 @@ public class PrisonerWebScreen extends Screen implements MouseMotionListener, Mo
         canvas.setGraphics(graphics);
         canvas.redraw();
         this.setBackground(new Color(250, 250, 250));
-        this.addMouseMotionListener(this);
-        this.addMouseListener(this);
     }
 
     public void setMainPrisoner(Prisoner mainPrisoner) {
@@ -56,50 +92,5 @@ public class PrisonerWebScreen extends Screen implements MouseMotionListener, Mo
         double y = 0.5 + Math.cos(2 * Math.PI * position / length) * 0.4;
 
         return new DataRectangle(prisoner, x, y);
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        canvas.mouseMoved(e.getX(), e.getY());
-        repaint();
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        if (e.getClickCount() == 1) {
-            Prisoner prisoner;
-            prisoner = canvas.getSelectedPrisoner(e.getX(), e.getY());
-            if (prisoner != null) {
-                setMainPrisoner(prisoner);
-                canvas.redraw();
-                repaint();
-            }
-            return;
-        }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-
     }
 }
