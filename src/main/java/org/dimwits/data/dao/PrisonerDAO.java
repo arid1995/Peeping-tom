@@ -159,15 +159,15 @@ public class PrisonerDAO implements Persistable{
         }
     }
 
-    public void linkTwoPrisoners(Prisoner prisoner1, Prisoner prisoner2, boolean isFriendly) {
+    public void linkTwoPrisoners(Prisoner prisoner1, Prisoner prisoner2, int isFriendly) {
         try {
             Database.update("INSERT INTO links (prisoner1, prisoner2, isFriendly) " +
                     "values(" + prisoner1.getId() + ","
                     + prisoner2.getId() + "," +
-                    + (isFriendly ? 1 : 0) + ");");
+                    + isFriendly + ");");
         } catch (SQLException e) {
             try {
-                Database.update("UPDATE links SET isFriendly=" + (isFriendly ? 1 : 0) + " " +
+                Database.update("UPDATE links SET isFriendly=" + isFriendly + " " +
                         "WHERE prisoner1=" + prisoner1.getId() + " AND " +
                         "prisoner2=" + prisoner2.getId() + ";");
             } catch (SQLException ex) {

@@ -52,18 +52,18 @@ public class LinkInitiator {
         panel1.add(makeHostileLinkButton, constraints);
 
         makeFriendlyLinkButton.addActionListener((ActionEvent event) -> {
-            makeLink(event, true);
+            makeLink(event, 1);
         });
 
         makeHostileLinkButton.addActionListener((ActionEvent event) -> {
-            makeLink(event, false);
+            makeLink(event, 0);
         });
 
         frame1.add(panel1);
         frame2.add(panel2);
     }
 
-    private void makeLink(ActionEvent actionEvent, boolean isFriendly) {
+    private void makeLink(ActionEvent actionEvent, int isFriendly) {
         Prisoner prisoner1 = searchScreen1.getSelectedPrisoner();
         Prisoner prisoner2 = searchScreen2.getSelectedPrisoner();
 
