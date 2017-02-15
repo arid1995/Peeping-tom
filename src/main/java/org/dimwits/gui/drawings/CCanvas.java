@@ -35,6 +35,10 @@ public class CCanvas {
             Linker linker = new Linker(mainShape.getBoundingRect(), shape.getBoundingRect());
             linker.setColor(Linker.FRIENDLY_LINK_COLOR);
             linkers.add(linker);
+            if (shape instanceof DataRectangle) {
+                linker.setColor((((DataRectangle) shape).getPrisoner().isFriendly()) > 0 ?
+                        Linker.FRIENDLY_LINK_COLOR : Linker.HOSTILE_LINK_COLOR);
+            }
         }
     }
 

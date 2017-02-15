@@ -46,22 +46,30 @@ public class LinkInitiator {
         constraints.weighty = 0;
         constraints.gridy = 1;
 
-        CButton makeLinkButton = new CButton("Создать связь");
-        panel2.add(makeLinkButton, constraints);
+        CButton makeFriendlyLinkButton = new CButton("Создать дружественную связь");
+        panel2.add(makeFriendlyLinkButton, constraints);
+        CButton makeHostileLinkButton = new CButton("Создать враждебную связь");
+        panel1.add(makeHostileLinkButton, constraints);
 
-        makeLinkButton.addActionListener(this::makeLink);
+        makeFriendlyLinkButton.addActionListener((ActionEvent event) -> {
+            makeLink(event, true);
+        });
+
+        makeHostileLinkButton.addActionListener((ActionEvent event) -> {
+            makeLink(event, false);
+        });
 
         frame1.add(panel1);
         frame2.add(panel2);
     }
 
-    private void makeLink(ActionEvent actionEvent) {
+    private void makeLink(ActionEvent actionEvent, boolean isFriendly) {
         Prisoner prisoner1 = searchScreen1.getSelectedPrisoner();
         Prisoner prisoner2 = searchScreen2.getSelectedPrisoner();
 
         if (prisoner1 != null && prisoner2 != null && !prisoner1.getId().equals(prisoner2.getId())) {
             PrisonerDAO prisonerDAO = new PrisonerDAO();
-            prisonerDAO.linkTwoPrisoners(prisoner1, prisoner2);
+            prisonerDAO.linkTwoPrisoners(prisoner1, prisoner2, isFriendly);
         }
     }
 

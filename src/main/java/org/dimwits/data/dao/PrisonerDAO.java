@@ -91,7 +91,7 @@ public class PrisonerDAO implements Persistable{
 
     private void extractAllPrisoners(ResultSet result, ArrayList<Prisoner> prisoners) throws SQLException {
         while (result.next()) {
-            prisoners.add(new Prisoner(result.getInt("id"),
+            Prisoner prisoner = new Prisoner(result.getInt("id"),
                     result.getString("firstName"),
                     result.getString("surname"),
                     result.getString("patronymic"),
@@ -102,8 +102,13 @@ public class PrisonerDAO implements Persistable{
                     result.getString("nickname"),
                     result.getString("convictionInfo"),
                     result.getString("additionalInfo"),
-                    result.getString("fileLink"))
+                    result.getString("fileLink")
             );
+            try {
+                prisoner.setFriendly(result.getInt("isFriendly"));
+            } catch (SQLException ex) {
+            }
+            prisoners.add(prisoner);
         }
     }
 
@@ -154,13 +159,20 @@ public class PrisonerDAO implements Persistable{
         }
     }
 
-    public void linkTwoPrisoners(Prisoner prisoner1, Prisoner prisoner2) {
+    public void linkTwoPrisoners(Prisoner prisoner1, Prisoner prisoner2, boolean isFriendly) {
         try {
-            Database.update("INSERT INTO links (prisoner1, prisoner2) " +
+            Database.update("INSERT INTO links (prisoner1, prisoner2, isFriendly) " +
                     "values(" + prisoner1.getId() + ","
-                    + prisoner2.getId() + ");");
+                    + prisoner2.getId() + "," +
+                    + (isFriendly ? 1 : 0) + ");");
         } catch (SQLException e) {
-            e.printStackTrace();
+            try {
+                Database.update("UPDATE links SET isFriendly=" + (isFriendly ? 1 : 0) + " " +
+                        "WHERE prisoner1=" + prisoner1.getId() + " AND " +
+                        "prisoner2=" + prisoner2.getId() + ";");
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -168,9 +180,10 @@ public class PrisonerDAO implements Persistable{
         final ArrayList<Prisoner> linkedPrisoners = new ArrayList<>();
 
         try {
-            Database.select("SELECT DISTINCT * FROM prisoners WHERE " +
-                            "id IN (SELECT prisoner1 FROM links WHERE prisoner2=" + prisoner.getId() + ") OR " +
-                            "id IN (SELECT prisoner2 FROM links WHERE prisoner1=" + prisoner.getId() + ");",
+            Database.select("SELECT DISTINCT p1.*, links.isFriendly FROM prisoners p0 INNER JOIN links ON " +
+                            "links.prisoner1=p0.id OR links.prisoner2=p0.id INNER JOIN prisoners p1 ON " +
+                            "links.prisoner1=p1.id OR links.prisoner2=p1.id WHERE " +
+                            "p0.id=" + prisoner.getId() + " AND p1.id<>" + prisoner.getId() + ";",
                     (result) -> { extractAllPrisoners(result, linkedPrisoners); });
         } catch (SQLException e) {
             e.printStackTrace();

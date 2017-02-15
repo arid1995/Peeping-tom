@@ -26,6 +26,7 @@ public class Prisoner {
     private String convictionInfo = "";
     private String additionalInfo = "";
     private String filePath = "";
+    private int isFriendly = 1;
 
     public Prisoner() {
     }
@@ -95,6 +96,10 @@ public class Prisoner {
         return filePath;
     }
 
+    public int isFriendly() {
+        return isFriendly;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -137,6 +142,10 @@ public class Prisoner {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public void setFriendly(int isFriendly) {
+        this.isFriendly = isFriendly;
     }
 
     @Override
